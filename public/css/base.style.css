@@ -1,0 +1,66 @@
+#header-main-row {
+
+    text-align: center;
+    background-color: purple;
+    height: 220px;
+    color: white;
+}
+
+#icone-recherche {
+
+    /*background-color: blue;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#icone-site {
+
+    /*background-color: red;*/
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#bloc-logo {
+
+    display: flex;
+    flex-direction: column;
+}
+
+#bloc-logo a {
+
+    color: white;
+}
+
+#bloc-logo a:hover {
+
+    text-decoration: none;
+}
+
+#menu-header {
+
+    /*background-color: purple;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.element-menu {
+
+    margin-right: 20px;
+}
+
+#icone-panier {
+
+    /*background-color: pink;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#compteur-panier {
+
+    margin-top: 20px;
+    margin-left: 3px;
+}

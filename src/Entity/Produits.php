@@ -130,11 +130,6 @@ class Produits
     private $taux_tva_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="produits_id")
-     */
-    private $categories;
-
-    /**
      * @ORM\OneToMany(targetEntity=Avis::class, mappedBy="produits_id")
      */
     private $avis;
@@ -149,12 +144,18 @@ class Produits
      */
     private $facturesProduits;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Categories::class, mappedBy="produits_id")
+     */
+    private $categories;
+
     public function __construct()
     {
         $this->types_caracteristiques_id = new ArrayCollection();
         $this->avis = new ArrayCollection();
         $this->paniersProduits = new ArrayCollection();
         $this->facturesProduits = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -444,18 +445,6 @@ class Produits
         return $this;
     }
 
-    public function getCategories(): ?Categories
-    {
-        return $this->categories;
-    }
-
-    public function setCategories(?Categories $categories): self
-    {
-        $this->categories = $categories;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Avis[]
      */
@@ -541,6 +530,33 @@ class Produits
             if ($facturesProduit->getProduitsId() === $this) {
                 $facturesProduit->setProduitsId(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Categories[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategories(Categories $categories): self
+    {
+        if (!$this->categories->contains($categories)) {
+            $this->categories[] = $categories;
+            $categories->addProduits($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategories(Categories $categories): self
+    {
+        if ($this->categories_id->removeElement($categories)) {
+            $categories->removeProduits($this);
         }
 
         return $this;

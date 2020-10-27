@@ -56,6 +56,11 @@ class Users implements UserInterface
     private $email;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $mot_de_passe;
+
+    /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -309,12 +314,12 @@ class Users implements UserInterface
 
     public function getPassword(): ?string
     {
-        return $this->password;
+        return $this->mot_de_passe;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $mot_de_passe): self
     {
-        $this->password = $password;
+        $this->mot_de_passe = $mot_de_passe;
 
         return $this;
     }

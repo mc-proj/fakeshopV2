@@ -35,13 +35,19 @@ class Categories
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=Produits::class, mappedBy="categories")
+     * @ORM\ManyToMany(targetEntity=Produits::class, inversedBy="categories_id")
      */
-    private $produits_id;
+    private $produits;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SousCategories::class, mappedBy="categories_id")
+     */
+    private $sous_categories_id;
 
     public function __construct()
     {
-        $this->produits_id = new ArrayCollection();
+        $this->produits = new ArrayCollection();
+        $this->sous_categories_id = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -86,29 +92,53 @@ class Categories
     }
 
     /**
-     * @return Collection|produits[]
+     * @return Collection|Produits[]
      */
-    public function getProduitsId(): Collection
+    public function getProduits(): Collection
     {
-        return $this->produits_id;
+        return $this->produits;
     }
 
-    public function addProduitsId(produits $produitsId): self
+    public function addProduits(Produits $produits): self
     {
-        if (!$this->produits_id->contains($produitsId)) {
-            $this->produits_id[] = $produitsId;
-            $produitsId->setCategories($this);
+        if (!$this->produits->contains($produits)) {
+            $this->produits[] = $produits;
         }
 
         return $this;
     }
 
-    public function removeProduitsId(produits $produitsId): self
+    public function removeProduits(Produits $produits): self
     {
-        if ($this->produits_id->removeElement($produitsId)) {
+        $this->produits->removeElement($produits);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SousCategories[]
+     */
+    public function getSousCategoriesId(): Collection
+    {
+        return $this->sous_categories_id;
+    }
+
+    public function addSousCategoriesId(SousCategories $sousCategoriesId): self
+    {
+        if (!$this->sous_categories_id->contains($sousCategoriesId)) {
+            $this->sous_categories_id[] = $sousCategoriesId;
+            $sousCategoriesId->setCategoriesId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSousCategoriesId(SousCategories $sousCategoriesId): self
+    {
+        if ($this->sous_categories_id->removeElement($sousCategoriesId)) {
             // set the owning side to null (unless already changed)
-            if ($produitsId->getCategories() === $this) {
-                $produitsId->setCategories(null);
+            if ($sousCategoriesId->getCategoriesId() === $this) {
+                $sousCategoriesId->setCategoriesId(null);
             }
         }
 
