@@ -1,14 +1,32 @@
+body {
+
+    font-family: 'Noto Serif', arial;
+    font-style: italic bold;
+    font-weight: 400;
+    font-size: 17px;
+}
+
 #header-main-row {
 
     text-align: center;
-    background-color: purple;
+    background-color: rgb(92, 22, 22);
     height: 220px;
     color: white;
 }
 
+.ligne-recherche {
+
+    display: none;
+    padding: 10px;
+}
+
+#texte-recherche {
+
+    width: 80%;
+}
+
 #icone-recherche {
 
-    /*background-color: blue;*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,7 +34,6 @@
 
 #icone-site {
 
-    /*background-color: red;*/
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -26,6 +43,12 @@
 
     display: flex;
     flex-direction: column;
+    margin-right: 50px;
+}
+
+#image-logo {
+    
+    margin-bottom: 30px;
 }
 
 #bloc-logo a {
@@ -38,9 +61,8 @@
     text-decoration: none;
 }
 
-#menu-header {
+#menu-header-droite {
 
-    /*background-color: purple;*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -53,7 +75,6 @@
 
 #icone-panier {
 
-    /*background-color: pink;*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -63,4 +84,105 @@
 
     margin-top: 20px;
     margin-left: 3px;
+}
+
+#menu-header-gauche {
+
+    display: none;
+}
+
+.lien-header{
+
+    color: black !important;
+}
+
+#container-footer {
+
+    text-align: center;
+    background-color: rgb(92, 22, 22);
+    height: 220px;
+    color: white;
+}
+
+#container-footer a {
+
+    color: white;
+}
+
+.logo-footer {
+
+    font-size: 20px;
+}
+
+
+
+@media (max-width: 965px) and (min-width: 652px) {
+
+    #icone-recherche {
+
+        display: none;
+    }
+
+    #menu-header-gauche {
+
+        display: block;
+        padding-top: 100px;
+    }
+
+    #icone-site {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #image-logo {
+
+        transform: scale(0.7);
+        margin-bottom: 10px;
+    }
+
+    #menu-header-droite {
+
+        display: none;
+    }  
+}
+
+@media (max-width: 651px) {
+
+    #icone-recherche {
+
+        display: none;
+    }
+
+    #icone-site {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #image-logo {
+
+        transform: scale(0.7);
+        margin-bottom: 10px;
+    }
+
+    #menu-header-gauche {
+
+        display: flex;
+        flex-direction: column;
+        padding-top: 80px;
+        text-align: left;
+    }
+
+    #menu-header-droite {
+
+        display: none;
+    }
+
+    .element-menu {
+
+        margin-bottom: 10px;
+    }
 }

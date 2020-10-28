@@ -19,6 +19,7 @@ class AccueilController extends AbstractController
     public function index(CategoriesRepository $categoriesRepository): Response
     {
         $categories = $categoriesRepository->findAll();
+
         return $this->render('base.html.twig', [
             'categories' => $categories
         ]);
