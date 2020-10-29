@@ -1,9 +1,66 @@
-body {
+@font-face {
 
-    font-family: 'Noto Serif', arial;
-    font-style: italic bold;
-    font-weight: 400;
-    font-size: 17px;
+    font-family: "aclonica";
+    src: url('../polices/Aclonica/Aclonica.ttf');
+}
+
+@font-face {
+
+    font-family: "garamond";
+    src: url('../polices/Garamond/static/EBGaramond-Regular.ttf');
+}
+
+#cache {
+
+    position: fixed;
+    z-index: 9997;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: none;
+}
+
+#menu-lateral {
+
+    width: 360px;
+    height: 100%;
+    background-color: snow;
+    position: absolute;
+    z-index: 9998;
+    display: none;
+}
+
+#col-fermeture-lateral {
+
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+#bouton-fermeture-lateral {
+
+    width: 50px !important;
+    height: 35px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+}
+
+#row-menu-lateral {
+
+    margin-top: 20px;
+    font-family: "garamond", arial;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.sous-liste-laterale {
+
+    font-family: "garamond", arial;
+    font-size: 20px;
 }
 
 #header-main-row {
@@ -39,6 +96,11 @@ body {
     align-items: center;
 }
 
+.icone {
+
+    font-size: 25px;
+}
+
 #bloc-logo {
 
     display: flex;
@@ -49,6 +111,13 @@ body {
 #image-logo {
     
     margin-bottom: 30px;
+}
+
+#texte-logo {
+
+    font-size: 20px;
+    letter-spacing: 4px;
+    font-weight: 700;
 }
 
 #bloc-logo a {
@@ -64,8 +133,9 @@ body {
 #menu-header-droite {
 
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
+    padding: 0;
 }
 
 .element-menu {
@@ -76,8 +146,9 @@ body {
 #icone-panier {
 
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    padding-left: 30px;
 }
 
 #compteur-panier {
@@ -94,6 +165,18 @@ body {
 .lien-header{
 
     color: black !important;
+}
+
+#navbar {
+
+    font-family: "garamond", arial;
+    font-size: 19.2px;
+}
+
+#container-header, #container-footer {
+
+    font-family: "aclonica", arial;
+    font-size: 16px;
 }
 
 #container-footer {
@@ -114,9 +197,18 @@ body {
     font-size: 20px;
 }
 
-
-
 @media (max-width: 965px) and (min-width: 652px) {
+
+    #container-header, #container-footer {
+
+        font-size: 15px;
+    }
+    
+    #texte-logo {
+    
+        font-size: 18.75px;
+        letter-spacing: 1px;
+    }
 
     #icone-recherche {
 
@@ -150,6 +242,17 @@ body {
 
 @media (max-width: 651px) {
 
+    #container-header, #container-footer {
+
+        font-size: 15px;
+    }
+    
+    #texte-logo {
+    
+        font-size: 18.75px;
+        letter-spacing: 1px;
+    }
+
     #icone-recherche {
 
         display: none;
@@ -166,6 +269,11 @@ body {
 
         transform: scale(0.7);
         margin-bottom: 10px;
+    }
+
+    #icone-panier {
+
+        padding-left: 0;
     }
 
     #menu-header-gauche {

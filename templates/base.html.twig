@@ -18,17 +18,48 @@
             <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
         {# image favicon #}
             <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon/logo_32x32.png') }}">
-        {# Lien CDN police Noto Serif #}
-            <link href="https://fr.allfont.net/allfont.css?fonts=noto-serif" rel="stylesheet" type="text/css" />
         {# Lien vers notre feuille de style globale #}
             <link rel="stylesheet" href="{{ asset('css/base.style.css') }}">
         {% endblock %}
     </head>
 
     <body>
-        {% block header %}
+    <div id="cache"></div>
+        <div id="menu-lateral">
             <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12" id="col-fermeture-lateral">
+                        <button type="button" class="btn btn-outline-dark" id="bouton-fermeture-lateral">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
 
+                <div class="row" id="row-menu-lateral">
+                    {% for categorie in categories %}
+                        <div class="col-12">
+                            {% if categorie.getSousCategoriesId()|length == 0 %}
+                                    <a class="nav-link lien-header" href="#">{{ categorie.nom }}</a>
+                            {% else %}
+                                <div class="liste">
+                                    <a class="nav-link lien-header dropdown-toggle" href="#" id="navbarDropdownMenuLink_{{ categorie.id }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ categorie.nom }}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink_{{ categorie.id }}">
+                                        {% for sous_categorie in categorie.getSousCategoriesId() %}
+                                            <a class="dropdown-item sous-liste-laterale" href="#">{{ sous_categorie.getNom() }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        {% block header %}
+            <div class="container-fluid" id="container-header">
                 <div class="row ligne-recherche">
                     <div class="col-12">
                         <form class="form-inline">
@@ -44,7 +75,7 @@
 
                 <div class="row" id="header-main-row">
                     <div class="col-1" id='icone-recherche'>
-                        <i class="fas fa-search fa-2x"></i>
+                        <i class="fas fa-search icone"></i>
                     </div>
                     <div class="col-4" id='menu-header-gauche'>
                         <span class="element-menu">Accueil</span>
@@ -56,7 +87,7 @@
                             <a href="{{ path('accueil') }}">
                                 <img id="image-logo" src="{{ asset('images/icone/icone.png') }}" alt="logo marché du web">
                             </a>
-                            <a href="{{ path('accueil') }}">Marché du Web</a>
+                            <a href="{{ path('accueil') }}" id="texte-logo">Marché du Web</a>
                         </div>
                     </div>
 
@@ -65,18 +96,18 @@
                         <span class="element-menu">Connexion</span>
                     </div>
                     <div class="col-2" id='icone-panier'>
-                        <i class="fas fa-shopping-cart fa-2x"></i>
+                        <i class="fas fa-shopping-cart icone"></i>
                         <span class="badge badge-light" id="compteur-panier">0</span>
                     </div>
                 </div>
             </div>
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler ml-auto" id="burger-button" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="collapse navbar-collapse d-none" id="navbarNav">
                     <ul class="navbar-nav mr-auto ml-auto">
                         {% for categorie in categories %}
                             {% if categorie.getSousCategoriesId()|length == 0 %}
@@ -99,6 +130,8 @@
                     </ul>
                 </div>
             </nav>
+
+            
         {% endblock %}
 
         {% block body %}
@@ -107,7 +140,7 @@
 
         {% block footer %}
             <div class="container-fluid fixed-bottom" id="container-footer">
-                <div class="row">
+                {# <div class="row">
                     <div class="col-2">
                         <div>Politique de confidentialité</div>
                         <div>CGV</div>
@@ -132,6 +165,41 @@
                 <div class="row">
                     <div class="col-12">
                         <img id="image-logo" src="{{ asset('images/moyen_paiement.png') }}" alt="moyens de paiement: paypal, carte bleue, visa, mastercard">
+                    </div>
+                </div> #}
+
+                {# essai begin #}
+                <div class="row" style="height: 30px">
+                    <div class="col-3">Politique de confidentialité</div>
+                    <div class="col-6">Marché du Web</div>
+                    <div class="col-3">Contact</div>
+                </div>
+
+                <div class="row" style="height: 30px">
+                    <div class="col-3">CGV</div>
+                    <div class="col-6">Entreprise située dans le Nord de la France</div>
+                    <div class="col-3">Suivez nous</div>
+                </div>
+
+                <div class="row" style="height: 30px">
+                    <div class="col-3"></div>
+                    <div class="col-6"></div>
+                    <div class="col-3">
+                            <a href="#"><i class="fab fa-instagram logo-footer"></i></a>
+                            <a href="#"><i class="fab fa-facebook logo-footer"></i></a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <img id="image-logo" src="{{ asset('images/moyen_paiement.png') }}" alt="moyens de paiement: paypal, carte bleue, visa, mastercard">
+                    </div>
+                </div>
+                {# essai end #}
+
+                <div class="row" style="background-color: white; color: black">
+                    <div class="col-12">
+                        &copy;{{ "now"|date("Y") }} Marché du Web Powered by Dev & Kod'
                     </div>
                 </div>
             </div>
