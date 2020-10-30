@@ -5,7 +5,7 @@
 
         <meta name="description" content="Divers produits pour la maison : accessoires , décorations et pleins d'autres choses.">
 	    <meta name="keywords" content="marcheduweb, Marcheduweb, MarcheDuweb, MarcheDuWeb">
-	    <meta name="author" content="Dev & Kod">
+	    <meta name="author" content="Dev &#038; Kod">
 	    <meta name="og:title" property="og:title" content="Marché du web, divers produits pour la maison">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <meta name="robots" content= "index,follow">
@@ -24,7 +24,7 @@
     </head>
 
     <body>
-    <div id="cache"></div>
+        <div id="cache"></div>
         <div id="menu-lateral">
             <div class="container-fluid">
                 <div class="row">
@@ -45,13 +45,13 @@
                                     <a class="nav-link lien-header dropdown-toggle" href="#" id="navbarDropdownMenuLink_{{ categorie.id }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {{ categorie.nom }}
                                     </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink_{{ categorie.id }}">
+                                    <div class="dropdown-menu dropdown-menu-lateral" aria-labelledby="navbarDropdownMenuLink_{{ categorie.id }}">
                                         {% for sous_categorie in categorie.getSousCategoriesId() %}
                                             <a class="dropdown-item sous-liste-laterale" href="#">{{ sous_categorie.getNom() }}</a>
                                         {% endfor %}
                                     </div>
                                 </div>
-                            {% endif %}
+                            {% endif %}  
                         </div>
                     {% endfor %}
                 </div>
@@ -59,6 +59,7 @@
         </div>
 
         {% block header %}
+        <div id="div-header">
             <div class="container-fluid" id="container-header">
                 <div class="row ligne-recherche">
                     <div class="col-12">
@@ -102,36 +103,38 @@
                 </div>
             </div>
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar-header">
                 <button class="navbar-toggler ml-auto" id="burger-button" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse d-none" id="navbarNav">
-                    <ul class="navbar-nav mr-auto ml-auto">
-                        {% for categorie in categories %}
-                            {% if categorie.getSousCategoriesId()|length == 0 %}
-                                <li class="nav-item">
-                                    <a class="nav-link lien-header" href="#">{{ categorie.nom }}</a>
-                                </li>
-                            {% else %}
-                                <li class="nav-item dropdown liste">
-                                    <a class="nav-link lien-header dropdown-toggle" href="#" id="navbarDropdownMenuLink_{{ categorie.id }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{ categorie.nom }}
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink_{{ categorie.id }}">
-                                        {% for sous_categorie in categorie.getSousCategoriesId() %}
-                                            <a class="dropdown-item" href="#">{{ sous_categorie.getNom() }}</a>
-                                        {% endfor %}
+                <div class="container-fluid" id="menu-navbar">
+                    <div class="row" id="row-menu-navbar">
+                        <div class="col-12" id="col-menu-navbar">
+                            {% for categorie in categories %}
+                                {% if categorie.getSousCategoriesId()|length == 0 %}
+                                <div class="dropdown" style="display: inline-block">
+                                    <a class="lien-header" href="#">{{ categorie.nom }}</a>
+                                </div>
+                                {% else %}
+                                    <div class="dropdown liste" style="display: inline-block">
+                                        <a class="lien-header dropdown-toggle" href="#" id="navbarDropdownMenuLink_{{ categorie.id }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {# style="margin: 10px"#}
+                                            {{ categorie.nom }}
+                                        </a>
+
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink_{{ categorie.id }}">
+                                            {% for sous_categorie in categorie.getSousCategoriesId() %}
+                                                <a class="dropdown-item sous-liste-normale" href="#">{{ sous_categorie.getNom() }}</a>
+                                            {% endfor %}
+                                        </div>
                                     </div>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </nav>
-
-            
+        </div> {#fin div-header #}
         {% endblock %}
 
         {% block body %}
@@ -140,22 +143,22 @@
 
         {% block footer %}
             <div class="container-fluid fixed-bottom" id="container-footer">
-                {# <div class="row">
-                    <div class="col-2">
-                        <div>Politique de confidentialité</div>
-                        <div>CGV</div>
+                <div class="row">
+                    <div class="col-md-2 col-sm-4">
+                        <div class="case-footer">Politique de confidentialité</div>
+                        <div class="case-footer">CGV</div>
                     </div>
 
-                    <div class="col-8">
-                        <div>Marché du Web</div>
-                        <div>Entreprise située dans le Nord de la France</div>
-                        <div>Email: contact@marcheduweb.fr</div>
+                    <div class="col-md-8 col-sm-4">
+                        <div class="case-footer">Marché du Web</div>
+                        <div class="case-footer">Entreprise située dans le Nord de la France</div>
+                        <div class="case-footer">Email: contact@marcheduweb.fr</div>
                     </div>
 
-                    <div class="col-2">
-                        <div>Contact</div>
-                        <div>Suivez nous</div>
-                        <div>
+                    <div class="col-md-2 col-sm-4">
+                        <div class="case-footer">Contact</div>
+                        <div class="case-footer">Suivez nous</div>
+                        <div class="case-footer">
                             <a href="#"><i class="fab fa-instagram logo-footer"></i></a>
                             <a href="#"><i class="fab fa-facebook logo-footer"></i></a>
                         </div>
@@ -166,40 +169,11 @@
                     <div class="col-12">
                         <img id="image-logo" src="{{ asset('images/moyen_paiement.png') }}" alt="moyens de paiement: paypal, carte bleue, visa, mastercard">
                     </div>
-                </div> #}
-
-                {# essai begin #}
-                <div class="row" style="height: 30px">
-                    <div class="col-3">Politique de confidentialité</div>
-                    <div class="col-6">Marché du Web</div>
-                    <div class="col-3">Contact</div>
                 </div>
-
-                <div class="row" style="height: 30px">
-                    <div class="col-3">CGV</div>
-                    <div class="col-6">Entreprise située dans le Nord de la France</div>
-                    <div class="col-3">Suivez nous</div>
-                </div>
-
-                <div class="row" style="height: 30px">
-                    <div class="col-3"></div>
-                    <div class="col-6"></div>
-                    <div class="col-3">
-                            <a href="#"><i class="fab fa-instagram logo-footer"></i></a>
-                            <a href="#"><i class="fab fa-facebook logo-footer"></i></a>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <img id="image-logo" src="{{ asset('images/moyen_paiement.png') }}" alt="moyens de paiement: paypal, carte bleue, visa, mastercard">
-                    </div>
-                </div>
-                {# essai end #}
 
                 <div class="row" style="background-color: white; color: black">
                     <div class="col-12">
-                        &copy;{{ "now"|date("Y") }} Marché du Web Powered by Dev & Kod'
+                        &copy;{{ "now"|date("Y") }} Marché du Web Powered by Dev &#038; Kod'
                     </div>
                 </div>
             </div>

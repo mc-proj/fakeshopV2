@@ -42,26 +42,9 @@ $(document).ready(function() {
 
     ///--------------
 
-    // $("#burger-button").on("shown.bs.collapse", function() {
+    /*$(".sous-liste-normale").on("mouseover", function() {
 
-    //     alert("ok");
-    // })
-
-    // $("#navbarNav").on("toggle", function() {
-
-    //     console.log("ok");
-    // })
-
-    $(window).resize(function(){
-        
-        if($("#burger-button").is(":visible")) {
-
-            console.log("burger visible");
-        }
-
-        else {
-
-            console.log("burger invisible");
-        }
-    })
+        $(this).parent().prev().addClass("special"); //ajout pseudo element "barre ok"
+        // $(this).parent().prev().css("color", "rgb(202, 64, 64) !important"); //couleur ne change pas
+    })*/
 })
