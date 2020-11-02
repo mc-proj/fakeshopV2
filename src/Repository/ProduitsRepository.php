@@ -19,6 +19,16 @@ class ProduitsRepository extends ServiceEntityRepository
         parent::__construct($registry, Produits::class);
     }
 
+    public function findByBegin($debut) {
+
+        return $this->createQueryBuilder('p')
+            ->where('p.nom LIKE :debut')
+            ->setParameter('debut', $debut.'%')
+            ->select('p.nom')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Produits[] Returns an array of Produits objects
     //  */

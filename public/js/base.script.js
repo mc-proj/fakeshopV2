@@ -37,14 +37,73 @@ $(document).ready(function() {
 
     $("#burger-button").on("click", function() {
 
-        $("#bouton-fermeture-lateral").trigger("click");
+        $("#bouton-fermeture-lateral").trigger("click"); 
     })
 
-    ///--------------
+    $(".sous-liste-normale").on("mouseover", function() {
 
-    /*$(".sous-liste-normale").on("mouseover", function() {
+         //ajout pseudo element pour avoir la barre rouge au dessus du texte
+        $(this).parent().prev().addClass("special");
+        $(this).parent().prev().css("color", "rgb(202, 64, 64)");
+    })
 
-        $(this).parent().prev().addClass("special"); //ajout pseudo element "barre ok"
-        // $(this).parent().prev().css("color", "rgb(202, 64, 64) !important"); //couleur ne change pas
-    })*/
+    $(".sous-liste-normale").on("mouseleave", function() {
+
+        //retrait pseudo element pour avoir la barre rouge au dessus du texte
+       $(this).parent().prev().removeClass("special");
+       $(this).parent().prev().css("color", "black");
+   })
+
+   $(".sous-liste-laterale").on("mouseover", function() {
+
+        //ajout pseudo element pour avoir la barre rouge au dessus du texte
+        $(this).parent().prev().addClass("special");
+        $(this).parent().prev().css("color", "rgb(202, 64, 64)");
+    })
+
+    $(".sous-liste-laterale").on("mouseleave", function() {
+
+    //retrait pseudo element pour avoir la barre rouge au dessus du texte
+        $(this).parent().prev().removeClass("special");
+        $(this).parent().prev().css("color", "black");
+    })
+
+    $("#texte-recherche").on("keyup", function() {
+
+        $.ajax({
+            type: "POST",
+            url: "/recherche",
+            data: {
+                debut: $(this).val()
+            },
+            success: function(response) {
+
+                let results = JSON.parse(response);
+                $("#resultats-recherche").empty();
+
+                if(results.length == 0) {
+
+                    $("#resultats-recherche").slideUp();
+                }
+
+                else {
+
+                    for(result of results) {
+                        
+                        $("#resultats-recherche").append("<a href='#'>" + result.nom + "</a><br>");
+                    }
+                    $("#resultats-recherche").slideDown();
+                }    
+            },
+            error: function(err) {
+
+                console.log(err);
+            }
+        })
+    })
+
+    $("#bouton-cookies").on("click", function() {
+
+        $("#container-cookies").css("display", "none");
+    })
 })

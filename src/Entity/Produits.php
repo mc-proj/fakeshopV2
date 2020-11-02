@@ -6,6 +6,7 @@ use App\Repository\ProduitsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass=ProduitsRepository::class)
@@ -560,5 +561,13 @@ class Produits
         }
 
         return $this;
+    }
+
+    public function jsonSerialize() {
+
+        return [
+            'id' => $this->id,
+            'nom' => $this->nom,
+        ];
     }
 }

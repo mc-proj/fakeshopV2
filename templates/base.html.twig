@@ -24,6 +24,7 @@
     </head>
 
     <body>
+    {% block body %}
         <div id="cache"></div>
         <div id="menu-lateral">
             <div class="container-fluid">
@@ -65,8 +66,8 @@
                     <div class="col-12">
                         <form class="form-inline">
                             <input class="form-control mr-3" id="texte-recherche" type="search" placeholder="Rechercher..." aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Rechercher</button>
-                        
+                            <div class="form-control" id="resultats-recherche"></div>
+
                             <button id="croix-recherche" type="button" class="close ml-auto" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -78,9 +79,16 @@
                     <div class="col-1" id='icone-recherche'>
                         <i class="fas fa-search icone"></i>
                     </div>
-                    <div class="col-4" id='menu-header-gauche'>
-                        <span class="element-menu">Accueil</span>
-                        <span class="element-menu">Connexion</span>
+                    <div class="col-3" id='menu-header-gauche'>
+                        {% set current_path = app.request.get('_route') %}
+                        {% if current_path is not same as ("accueil") %}
+                            <span class="element-menu">
+                                <a href="#">Accueil</a>
+                            </span>
+                        {% endif %}
+                        <span class="element-menu">
+                            <a href="#">Connexion</a>   
+                        </span>
                     </div>
 
                     <div class="col-6" id='icone-site'>
@@ -93,12 +101,22 @@
                     </div>
 
                     <div class="col-3" id='menu-header-droite'>
-                        <span class="element-menu">Accueil</span>
-                        <span class="element-menu">Connexion</span>
+
+                        {% set current_path = app.request.get('_route') %}
+                        {% if current_path is not same as ("accueil") %}
+                            <span class="element-menu">
+                                <a href="#">Accueil</a>
+                            </span>
+                        {% endif %}
+                        <span class="element-menu">
+                            <a href="#">Connexion</a>   
+                        </span>
                     </div>
                     <div class="col-2" id='icone-panier'>
-                        <i class="fas fa-shopping-cart icone"></i>
-                        <span class="badge badge-light" id="compteur-panier">0</span>
+                        <a href="#">
+                            <i class="fas fa-shopping-cart icone"></i>
+                            <span class="badge badge-light" id="compteur-panier">0</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -113,12 +131,12 @@
                         <div class="col-12" id="col-menu-navbar">
                             {% for categorie in categories %}
                                 {% if categorie.getSousCategoriesId()|length == 0 %}
-                                <div class="dropdown" style="display: inline-block">
+                                <div class="dropdown enligne">
                                     <a class="lien-header" href="#">{{ categorie.nom }}</a>
                                 </div>
                                 {% else %}
-                                    <div class="dropdown liste" style="display: inline-block">
-                                        <a class="lien-header dropdown-toggle" href="#" id="navbarDropdownMenuLink_{{ categorie.id }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {# style="margin: 10px"#}
+                                    <div class="dropdown liste enligne">
+                                        <a class="lien-header dropdown-toggle" href="#" id="navbarDropdownMenuLink_{{ categorie.id }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             {{ categorie.nom }}
                                         </a>
 
@@ -137,43 +155,69 @@
         </div> {#fin div-header #}
         {% endblock %}
 
-        {% block body %}
-        template base
+        {% block content %}
+        <div id="content">
+        {# contenu temporaire pour visualisation #}
+            {% for i in 0..15 %}
+                template base<br>
+            {% endfor %}
+        </div>
         {% endblock %}
 
         {% block footer %}
-            <div class="container-fluid fixed-bottom" id="container-footer">
+            <div class="container-fluid" id="container-footer">
                 <div class="row">
-                    <div class="col-md-2 col-sm-4">
-                        <div class="case-footer">Politique de confidentialité</div>
-                        <div class="case-footer">CGV</div>
+                    <div class="col-md-2 col-sm-3">
+                        <div class="case-footer" id="case-gauche-1">
+                            <a href="#">Politique de confidentialité</a>
+                        </div>
+                        <div class="case-footer" id="case-gauche-2">
+                            <a href="#">CGV</a>
+                        </div>
+                        <div class="case-footer" id="case-gauche-3"></div>
+
                     </div>
 
-                    <div class="col-md-8 col-sm-4">
+                    <div class="col-md-8 col-sm-6">
                         <div class="case-footer">Marché du Web</div>
                         <div class="case-footer">Entreprise située dans le Nord de la France</div>
                         <div class="case-footer">Email: contact@marcheduweb.fr</div>
                     </div>
 
-                    <div class="col-md-2 col-sm-4">
-                        <div class="case-footer">Contact</div>
+                    <div class="col-md-2 col-sm-3">
+                        <div class="case-footer">
+                            <a href="#">Contact</a>
+                        </div>
                         <div class="case-footer">Suivez nous</div>
                         <div class="case-footer">
-                            <a href="#"><i class="fab fa-instagram logo-footer"></i></a>
-                            <a href="#"><i class="fab fa-facebook logo-footer"></i></a>
+                            <a href="https://www.instagram.com/marcheduweb/" target="_blank"><i class="fab fa-instagram logo-footer"></i></a>
+                            <a href="https://www.facebook.com/sandy.h59" target="_blank"><i class="fab fa-facebook logo-footer"></i></a>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-12" id="col-image-paiement">
                         <img id="image-logo" src="{{ asset('images/moyen_paiement.png') }}" alt="moyens de paiement: paypal, carte bleue, visa, mastercard">
                     </div>
                 </div>
 
-                <div class="row" style="background-color: white; color: black">
+                <div class="row" id="row-date">
                     <div class="col-12">
-                        &copy;{{ "now"|date("Y") }} Marché du Web Powered by Dev &#038; Kod'
+                        <span id="symbole_copy">&copy;</span>{{ "now"|date("Y") }} Marché du Web Powered by Dev &#038; Kod'
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid" id="container-cookies">
+                <div class="row">
+                    <div class="col-md-9 col-sm-12" id="texte-cookies">
+                        Confidentialité et cookies : ce site utilise des cookies. En continuant à naviguer sur ce site, vous acceptez que nous en utilisions.
+                        Pour en savoir plus, y compris sur la façon de contrôler les cookies, reportez-vous à ce qui suit : <a href="#">Politique relative aux cookies</a>
+                    </div>
+
+                    <div class="col-md-3 col-sm-12" id="bouton-cookies">
+                        <button class="btn btn-dark">Fermer et accepter</button>
                     </div>
                 </div>
             </div>
@@ -184,11 +228,11 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         {# Liens CDN Bootstrap #}
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-            {# <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> #}
             <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
         {# Lien vers script de la page #}
             <script src="{{ asset('js/base.script.js') }}"></script>
         {% endblock %}
+    {% endblock %}
     </body>
 </html>
