@@ -156,15 +156,31 @@
         {% endblock %}
 
         {% block content %}
-        <div id="content">
-        {# contenu temporaire pour visualisation #}
-            {% for i in 0..15 %}
-                template base<br>
-            {% endfor %}
-        </div>
+            <div id="content"></div>
         {% endblock %}
 
         {% block footer %}
+            <div class="modal fade" id="modale-propos" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">A propos</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Marché du Web</p>
+                            <p>Site de Madame Sandrine HERICOTTE</p>
+                            <p>Siren: 888 033 990</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="container-fluid" id="container-footer">
                 <div class="row">
                     <div class="col-md-2 col-sm-3">
@@ -174,7 +190,11 @@
                         <div class="case-footer" id="case-gauche-2">
                             <a href="#">CGV</a>
                         </div>
-                        <div class="case-footer" id="case-gauche-3"></div>
+                        <div class="case-footer" id="case-gauche-3">
+                            <a data-toggle="modal" data-target="#modale-propos">
+                                A propos
+                            </a>
+                        </div>
 
                     </div>
 

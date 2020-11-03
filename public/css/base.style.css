@@ -398,6 +398,12 @@ body {
     padding: 3%;
 }
 
+#case-gauche-3 a:hover {
+
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 #col-image-paiement {
 
     display: flex;

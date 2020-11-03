@@ -68,38 +68,53 @@ $(document).ready(function() {
         $(this).parent().prev().css("color", "black");
     })
 
+
+    //gestion recherche dynamique
+    let tempo = null;
+
     $("#texte-recherche").on("keyup", function() {
 
-        $.ajax({
-            type: "POST",
-            url: "/recherche",
-            data: {
-                debut: $(this).val()
-            },
-            success: function(response) {
+        if(tempo != null) {
 
-                let results = JSON.parse(response);
-                $("#resultats-recherche").empty();
+            clearTimeout(tempo);
+            tempo = null;
+        }
 
-                if(results.length == 0) {
+        let debut = $(this).val();
 
-                    $("#resultats-recherche").slideUp();
-                }
+        tempo = setTimeout(function() {
 
-                else {
+            $.ajax({
+                type: "POST",
+                url: "/recherche",
+                data: {
+                    debut: debut
+                },
+                success: function(response) {
 
-                    for(result of results) {
-                        
-                        $("#resultats-recherche").append("<a href='#'>" + result.nom + "</a><br>");
+                    let results = JSON.parse(response);
+                    $("#resultats-recherche").empty();
+
+                    if(results.length == 0) {
+
+                        $("#resultats-recherche").slideUp();
                     }
-                    $("#resultats-recherche").slideDown();
-                }    
-            },
-            error: function(err) {
 
-                console.log(err);
-            }
-        })
+                    else {
+
+                        for(result of results) {
+                            
+                            $("#resultats-recherche").append("<a href='#'>" + result.nom + "</a><br>");
+                        }
+                        $("#resultats-recherche").slideDown();
+                    }    
+                },
+                error: function(err) {
+
+                    console.log(err);
+                }
+            })
+        }, 1000);
     })
 
     $("#bouton-cookies").on("click", function() {
