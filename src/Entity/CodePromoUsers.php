@@ -23,12 +23,12 @@ class CodePromoUsers
     private $date_utilisation;
 
     /**
-     * @ORM\ManyToOne(targetEntity=CodesPromo::class, inversedBy="codePromoUsers")
+     * @ORM\ManyToOne(targetEntity=CodesPromoSP::class, inversedBy="codePromoUsers")
      */
     private $codes_promo_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="codePromoUsers")
+     * @ORM\ManyToOne(targetEntity=UsersSP::class, inversedBy="codePromoUsers")
      */
     private $users_id;
 
@@ -49,24 +49,24 @@ class CodePromoUsers
         return $this;
     }
 
-    public function getCodesPromoId(): ?codesPromo
+    public function getCodesPromoId(): ?codesPromoSP
     {
         return $this->codes_promo_id;
     }
 
-    public function setCodesPromoId(?codesPromo $codes_promo_id): self
+    public function setCodesPromoId(?codesPromoSP $codes_promo_id): self
     {
         $this->codes_promo_id = $codes_promo_id;
 
         return $this;
     }
 
-    public function getUsersId(): ?users
+    public function getUsersId(): ?usersSP
     {
         return $this->users_id;
     }
 
-    public function setUsersId(?users $users_id): self
+    public function setUsersId(?usersSP $users_id): self
     {
         $this->users_id = $users_id;
 

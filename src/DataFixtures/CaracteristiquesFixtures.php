@@ -13,22 +13,23 @@ class CaracteristiquesFixtures extends Fixture implements DependentFixtureInterf
     public function getDependencies()
     {
         return [
-            ProduitsFixtures::class
+            ProduitsFixtures::class,
+            TypesCaracteristiquesFixtures::class
         ];
     }
 
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create('fr_FR');
+        /*$faker = Factory::create('fr_FR');
 
         for($i=0; $i<15; $i++) {
 
             $caracteristiques = new Caracteristiques();
-            $caracteristiques->setValeur($faker->randomFloat(2, 1, 400)); //$nbMaxDecimals, $min, $max
+            $caracteristiques->setValeur((rand(100, 40000)/100)); //float aleatoire entre 1.00 et 400.00
             $caracteristiques->setProduitsId($this->getReference(ProduitsFixtures::PRODUIT_REFERENCE));
-
+            $caracteristiques->setTypesCaracteristiquesId($this->getReference(TypesCaracteristiquesFixtures::TYPE_CARACTERISTIQUE_REFERENCE));
             $manager->persist($caracteristiques);
             $manager->flush();
-        }   
+        }*/   
     }
 }

@@ -18,7 +18,7 @@ class Caracteristiques
     private $id;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="string", length=255)
      */
     private $valeur;
 
@@ -37,12 +37,12 @@ class Caracteristiques
         return $this->id;
     }
 
-    public function getValeur(): ?float
+    public function getValeur(): ?string
     {
         return $this->valeur;
     }
 
-    public function setValeur(float $valeur): self
+    public function setValeur(string $valeur): self
     {
         $this->valeur = $valeur;
 

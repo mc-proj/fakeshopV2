@@ -30,17 +30,18 @@ class Paniers
     private $date_creation;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
-    private $montant;
+    private $montant_ht;
 
     /**
-     * @ORM\OneToOne(targetEntity=Users::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=UsersSP::class)
      */
     private $users_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=CodesPromo::class, inversedBy="paniers")
+     * @ORM\ManyToOne(targetEntity=CodesPromoSP::class, inversedBy="paniers")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $codes_promo_id;
 
@@ -48,6 +49,26 @@ class Paniers
      * @ORM\OneToMany(targetEntity=PaniersProduits::class, mappedBy="paniers_id")
      */
     private $paniersProduits;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $montant_ttc;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date_modification;
+
+    /**
+     * @ORM\OneToOne(targetEntity=AdressesLivraison::class, inversedBy="paniers", cascade={"persist", "remove"})
+     */
+    private $id_adresses_livraison;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $message;
 
     public function __construct()
     {
@@ -83,36 +104,36 @@ class Paniers
         return $this;
     }
 
-    public function getMontant(): ?float
+    public function getMontantHt(): ?float
     {
-        return $this->montant;
+        return $this->montant_ht;
     }
 
-    public function setMontant(float $montant): self
+    public function setMontantHt(float $montant_ht): self
     {
-        $this->montant = $montant;
+        $this->montant_ht = $montant_ht;
 
         return $this;
     }
 
-    public function getUsersId(): ?users
+    public function getUsersId(): ?usersSP
     {
         return $this->users_id;
     }
 
-    public function setUsersId(?users $users_id): self
+    public function setUsersId(?usersSP $users_id): self
     {
         $this->users_id = $users_id;
 
         return $this;
     }
 
-    public function getCodesPromoId(): ?codesPromo
+    public function getCodesPromoId(): ?codesPromoSP
     {
         return $this->codes_promo_id;
     }
 
-    public function setCodesPromoId(?codesPromo $codes_promo_id): self
+    public function setCodesPromoId(?codesPromoSP $codes_promo_id): self
     {
         $this->codes_promo_id = $codes_promo_id;
 
@@ -145,6 +166,54 @@ class Paniers
                 $paniersProduit->setPaniersId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMontantTtc(): ?float
+    {
+        return $this->montant_ttc;
+    }
+
+    public function setMontantTtc(float $montant_ttc): self
+    {
+        $this->montant_ttc = $montant_ttc;
+
+        return $this;
+    }
+
+    public function getDateModification(): ?\DateTimeInterface
+    {
+        return $this->date_modification;
+    }
+
+    public function setDateModification(\DateTimeInterface $date_modification): self
+    {
+        $this->date_modification = $date_modification;
+
+        return $this;
+    }
+
+    public function getIdAdressesLivraison(): ?AdressesLivraison
+    {
+        return $this->id_adresses_livraison;
+    }
+
+    public function setIdAdressesLivraison(?AdressesLivraison $id_adresses_livraison): self
+    {
+        $this->id_adresses_livraison = $id_adresses_livraison;
+
+        return $this;
+    }
+
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    public function setMessage(?string $message): self
+    {
+        $this->message = $message;
 
         return $this;
     }

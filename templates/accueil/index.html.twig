@@ -1,20 +1,123 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccueilController!{% endblock %}
+{% block title %}Accueil - Fake Shop V2{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/accueil/index.style.css') }}">
+{% endblock %}
+
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/marcheduweb/src/Controller/AccueilController.php'|file_link(0) }}">src/Controller/AccueilController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/marcheduweb/templates/accueil/index.html.twig'|file_link(0) }}">templates/accueil/index.html.twig</a></code></li>
-    </ul>
+<div id="texte-accueil">
+    <div id="accueil-ligne-1">Livraison gratuite.</div>
+    <div id="accueil-ligne-2">Arrivées régulières de nouveaux produits.</div>
 </div>
+
+<div class="container-fluid">
+    <div class="row" id="ligne-nouveaux">
+        <div class="col-12"><h1>Nouveautés</h1></div>
+            {% for produit in produits_recents %}
+                <div class="col-md-2 col-6">
+                
+                {% set categorie_generale = "" %}
+                {% set sous_categorie = "" %}
+                {% for categorie in produit.getCategories() %}
+                    {% if categorie.getCategory()|length > 0 %}
+                        {% set categorie_generale = categorie.getNom() %}
+                    {% else %}
+                        {% set sous_categorie = categorie.getNom() %}
+                    {% endif %}
+                {% endfor %}
+                <a href="{{ path('produits_par_categorie', {'categorie': categorie_generale, 'sous_categorie': sous_categorie, 'produit': produit.getNom() }) }}" class="lien-article">
+
+                        <div class="card shadow">
+                            {% set article = produit.getImages().getValues()|first %}
+                            <img src="{{ asset('images/produits/') ~ article.getImage() }}" class="card-img-top" alt="image {{ produit.nom }}">
+
+                            <div class="card-body">
+                                <p class="nom-produit">{{ produit.nom }}</p>
+                                
+                                {% if produit.getEtatTva() %}
+                                    {% set tva = produit.getTauxTvaId().getTaux() %}
+                                {% else %}
+                                    {% set tva = 0 %}
+                                {% endif %}
+
+                                {% if produit.getDateDebutPromo()|date('Y-m-d') <= "now"|date('Y-m-d') and produit.getDateFinPromo()|date('Y-m-d') >= "now"|date('Y-m-d') %}
+                                    <p class="prix-produit">
+                                        <del>&euro;
+                                            {{ (produit.tarif/100 + (produit.tarif/100 * tva/10000))|number_format(2, ',', ' ') }}
+                                        </del>
+                                        <ins>&nbsp;&euro;
+                                            {{ (produit.getTarifPromo()/100 + (produit.getTarifPromo()/100 * tva/10000)) |number_format(2, ',', ' ') }}
+                                        </ins><br>
+                                        <span class="prix-produit">promotion valable jusqu'au {{ produit.getDateFinPromo()|date('d/m/Y') }}</span>
+                                    </p>
+                                {% else %}
+                                    <p class="prix-produit">&euro;{{ (produit.tarif/100 + (produit.tarif/100 * tva/10000))|number_format(2, ',', ' ') }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row ligne-articles" id="ligne-meilleurs">
+            <div class="col-12"><h1>Meilleurs produits</h1></div>
+            {% for produit in meilleurs_produits %}
+                <div class="col-md-2 col-6">
+
+                {% set categorie_generale = "" %}
+                {% set sous_categorie = "" %}
+                {% for categorie in produit.getCategories() %}
+                    {% if categorie.getCategory()|length > 0 %}
+                        {% set categorie_generale = categorie.getNom() %}
+                    {% else %}
+                        {% set sous_categorie = categorie.getNom() %}
+                    {% endif %}
+                {% endfor %}
+                <a href="{{ path('produits_par_categorie', {'categorie': categorie_generale, 'sous_categorie': sous_categorie, 'produit': produit.getNom() }) }}" class="lien-article">
+                        
+                        <div class="card shadow">
+                            {% set article = produit.getImages().getValues()|first %}
+                            <img src="{{ asset('images/produits/') ~ article.getImage() }}" class="card-img-top" alt="image {{ produit.nom }}">
+
+                            <div class="card-body">
+                                <p class="nom-produit">{{ produit.nom }}</p>
+                                {% if produit.getEtatTva() %}
+                                    {% set tva = produit.getTauxTvaId().getTaux() %}
+                                {% else %}
+                                    {% set tva = 0 %}
+                                {% endif %}
+
+                                {% if produit.getDateDebutPromo()|date('Y-m-d') <= "now"|date('Y-m-d') and produit.getDateFinPromo()|date('Y-m-d') >= "now"|date('Y-m-d') %}
+                                    <p class="prix-produit">
+                                        <del>&euro;
+                                            {{ (produit.tarif/100 + (produit.tarif/100 * tva/10000))|number_format(2, ',', ' ') }}
+                                        </del>
+                                        <ins>&nbsp;&euro;
+                                            {{ (produit.getTarifPromo()/100 + (produit.getTarifPromo()/100 * tva/10000)) |number_format(2, ',', ' ') }}
+                                        </ins><br>
+                                        <span class="prix-produit">promotion valable jusqu'au {{ produit.getDateFinPromo()|date('d/m/Y') }}</span>
+                                    </p>
+                                {% else %}
+                                    <p class="prix-produit">&euro;
+                                        {{ (produit.tarif/100 + (produit.tarif/100 * tva/10000))|number_format(2, ',', ' ') }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/accueil/index.script.js') }}"></script>
+{% endblock %}
+

@@ -23,7 +23,7 @@ class FacturesProduits
     private $quantite;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Factures::class, inversedBy="facturesProduits")
+     * @ORM\ManyToOne(targetEntity=FacturesSP::class, inversedBy="facturesProduits")
      */
     private $factures_id;
 
@@ -49,12 +49,12 @@ class FacturesProduits
         return $this;
     }
 
-    public function getFacturesId(): ?factures
+    public function getFacturesId(): ?facturesSP
     {
         return $this->factures_id;
     }
 
-    public function setFacturesId(?factures $factures_id): self
+    public function setFacturesId(?facturesSP $factures_id): self
     {
         $this->factures_id = $factures_id;
 

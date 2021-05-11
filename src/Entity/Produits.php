@@ -11,7 +11,7 @@ use JsonSerializable;
 /**
  * @ORM\Entity(repositoryClass=ProduitsRepository::class)
  */
-class Produits
+class Produits implements JsonSerializable
 {
     /**
      * @ORM\Id
@@ -96,19 +96,14 @@ class Produits
     private $est_evaluable;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
     private $tarif;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $tarif_promo;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $image;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -127,6 +122,7 @@ class Produits
 
     /**
      * @ORM\ManyToOne(targetEntity=TauxTva::class, inversedBy="produits")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $taux_tva_id;
 
@@ -146,9 +142,34 @@ class Produits
     private $facturesProduits;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Categories::class, mappedBy="produits_id")
+     * @ORM\ManyToMany(targetEntity=Categories::class, mappedBy="produits")
      */
     private $categories;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $date_creation;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="produits")
+     */
+    private $images;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Produits::class, inversedBy="produits")
+     */
+    private $produits_suggeres;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Produits::class, mappedBy="produits_suggeres")
+     */
+    private $produits;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $note_moyenne;
 
     public function __construct()
     {
@@ -157,6 +178,9 @@ class Produits
         $this->paniersProduits = new ArrayCollection();
         $this->facturesProduits = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->produits_suggeres = new ArrayCollection();
+        $this->produits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -368,18 +392,6 @@ class Produits
         return $this;
     }
 
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
     public function getDelaiTelechargement(): ?int
     {
         return $this->delai_telechargement;
@@ -563,11 +575,165 @@ class Produits
         return $this;
     }
 
+    public function getDateCreation(): ?\DateTimeInterface
+    {
+        return $this->date_creation;
+    }
+
+    public function setDateCreation(\DateTimeInterface $date_creation): self
+    {
+        $this->date_creation = $date_creation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Images[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Images $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setProduits($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getProduits() === $this) {
+                $image->setProduits(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getProduitsSuggeres(): Collection
+    {
+        return $this->produits_suggeres;
+    }
+
+    public function addProduitsSuggere(self $produitsSuggere): self
+    {
+        if (!$this->produits_suggeres->contains($produitsSuggere)) {
+            $this->produits_suggeres[] = $produitsSuggere;
+        }
+
+        return $this;
+    }
+
+    public function removeProduitsSuggere(self $produitsSuggere): self
+    {
+        $this->produits_suggeres->removeElement($produitsSuggere);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getProduits(): Collection
+    {
+        return $this->produits;
+    }
+
+    public function addProduit(self $produit): self
+    {
+        if (!$this->produits->contains($produit)) {
+            $this->produits[] = $produit;
+            $produit->addProduitsSuggere($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(self $produit): self
+    {
+        if ($this->produits->removeElement($produit)) {
+            $produit->removeProduitsSuggere($this);
+        }
+
+        return $this;
+    }
+
+    public function getNomsImages() {
+
+        $noms = [];
+
+        foreach($this->images as $image) {
+
+            $image_src = $image->getImage();
+            array_push($noms, $image_src);
+        }
+
+        return $noms;
+    }
+
+    public function getCustomTauxTva() {
+
+        return $this->taux_tva_id->getTaux();
+    }
+
+    public function getNomsCategories() {
+
+        //retrourne tableau associatif sous la forme
+        //tableau = { nom_categorie => nom sous categorie }
+        $noms = [];
+
+        foreach($this->getCategories() as $categorie) {
+            if(sizeof($categorie->getCategory()) > 0) {
+                if(sizeof($categorie->getCategory()) > 0) {
+
+                    foreach($categorie->getCategory() as $sous_categorie) {
+
+                        $noms[$categorie->getNom()] = $sous_categorie->getNom();
+                    }
+                }
+            }
+        }
+        return $noms;
+    }
+
     public function jsonSerialize() {
 
         return [
             'id' => $this->id,
             'nom' => $this->nom,
+            //methode custom - recupere uniquement les noms des images associees
+            'images' => $this->getNomsImages(),
+            'date_debut_promo' => $this->date_debut_promo,
+            'date_fin_promo' => $this->date_fin_promo,
+            'tarif' => $this->tarif,
+            'tarif_promo' => $this->tarif_promo,
+            'etat_tva' => $this->etat_tva,
+            //methode custom qui recupere uniquement le taux de tva (nombre) associe
+            'taux_tva' => $this->getCustomTauxTva(),
+            //methode custom -- recupere les noms des categories et de leurs sous-categories sous forme de tableau associatif
+            'categories' => $this->getNomsCategories(),
         ];
+    }
+
+    public function getNoteMoyenne(): ?float
+    {
+        return $this->note_moyenne;
+    }
+
+    public function setNoteMoyenne(?float $note_moyenne): self
+    {
+        $this->note_moyenne = $note_moyenne;
+
+        return $this;
     }
 }

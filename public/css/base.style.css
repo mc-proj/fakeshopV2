@@ -10,6 +10,24 @@
     src: url('../polices/Garamond/static/EBGaramond-Regular.ttf');
 }
 
+@font-face {
+
+    font-family: "aladin";
+    src: url('../polices/Aladin/Aladin-Regular.ttf');
+}
+
+@font-face {
+
+    font-family: "amiri";
+    src: url('../polices/Amiri/Amiri-Regular.ttf');
+}
+
+@font-face {
+
+    font-family: "crafty_girls";
+    src: url('../polices/Crafty_girls/CraftyGirls-Regular.ttf');
+}
+
 body {
 
     min-height: 100vh;
@@ -64,6 +82,11 @@ body {
     font-weight: 700;
 }
 
+.liste {
+
+    text-align: left;
+}
+
 .dropdown-menu-lateral {
 
     width: 95%;
@@ -108,6 +131,7 @@ body {
     height: 80px;
     overflow-y: scroll;
     display: none;
+    text-align: left;
 }
 
 #resultats-recherche a {
@@ -188,6 +212,11 @@ body {
     text-decoration: none;
 }
 
+.element-menu a:hover {
+
+    color: rgb(62, 154, 246) !important;
+}
+
 #icone-panier {
 
     display: flex;
@@ -196,9 +225,100 @@ body {
     padding-left: 30px;
 }
 
+#loader-apercu {
+
+    border-radius: 50%;
+    background-color: rgba(0,0,0,0.5);
+    padding: 5%;
+}
+
+.loader-row {
+
+    position: fixed;
+    z-index: 9999;
+    background: url("../../images/loader.svg") 50% 50% no-repeat;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+#apercu-popover {
+
+    margin-right: 210px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.centre-verticallement {
+
+    display: flex;
+    align-items: center;
+}
+
+.image-appercu {
+
+    width: 100%;
+}
+
+.trait-hr {
+
+    width: 90%;
+}
+
+#bloc-total-gauche {
+
+    display: flex;
+    flex-direction: column;
+}
+
+#bloc-total-droit {
+
+    display: flex;
+    align-items: flex-end;
+}
+
+#bloc-bouton-apercu {
+
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#span-total-panier {
+
+    font-weight: 700;
+}
+
+#lien-apercu-panier {
+
+    background-color: rgb(92, 22, 22);
+    color: white;
+    font-weight: 500;
+    transition: all 500ms;
+    border-color: rgb(92, 22, 22);
+}
+
+#lien-apercu-panier:hover {
+
+    color: white !important;
+    background-color: rgb(0, 123, 255);
+    border-color: rgb(0, 123, 255);
+}
+
 .enligne {
 
     display: inline-block;
+}
+
+.enligne-lateral {
+
+    display: inline-block;
+    width: 100%;
 }
 
 #icone-panier a {
@@ -256,7 +376,7 @@ body {
     width: 100%;
     height: 2px;
     left: 0;
-    top: 7px;
+    top: 8px;
     background: rgb(202, 64, 64);
     transform: scaleX(0);
     transition: transform 0.2s ease-in-out;
@@ -410,6 +530,46 @@ body {
     justify-content: center;
 }
 
+#image-paiement {
+
+    margin-bottom: 20px;
+    transform: scale(0.8);
+}
+
+#col-lien-facebook {
+
+    color: black;
+    display: flex;
+    justify-content: center;
+}
+
+#row-lien-facebook {
+
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#col-logo-miniature {
+
+    padding: 0;
+}
+
+#image-logo-miniature {
+
+    width: 80%;
+    border: 1px solid black;
+}
+
+.logo-facebook-mini {
+
+    color: black;
+}
+
 #symbole_copy {
 
     font-family: 'garamond', arial;
@@ -428,11 +588,17 @@ body {
     color: white;
     position: fixed;
     bottom:0;
+    width: 98%;
+    margin-left: 1%;
 }
 
 #texte-cookies {
 
     padding: 10px;
+    font-family: 'aclonica', arial;
+    font-size: 14px;
+    font-weight: normal;
+    letter-spacing: 2px;
 }
 
 #texte-cookies a {
@@ -493,8 +659,9 @@ body {
 
     #menu-header-gauche {
 
-        display: block;
-        padding-top: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     #icone-site {
@@ -576,7 +743,7 @@ body {
 
         display: flex;
         flex-direction: column;
-        padding-top: 100px;
+        justify-content: center;
         text-align: left;
     }
 
@@ -602,13 +769,14 @@ body {
 
         display: flex;
         flex-direction: column;
-        padding-top: 100px;
         text-align: left;
+        justify-content: center;
     }
 
     .element-menu {
 
-        margin-bottom: 10px !important;;
+        margin-bottom: 10px !important;
+        display: inline-block;
     }
 
     #icone-site {

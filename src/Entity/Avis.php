@@ -33,7 +33,7 @@ class Avis
     private $produits_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="avis")
+     * @ORM\ManyToOne(targetEntity=UsersSP::class, inversedBy="avis")
      */
     private $users_id;
 
@@ -78,12 +78,12 @@ class Avis
         return $this;
     }
 
-    public function getUsersId(): ?users
+    public function getUsersId(): ?usersSP
     {
         return $this->users_id;
     }
 
-    public function setUsersId(?users $users_id): self
+    public function setUsersId(?usersSP $users_id): self
     {
         $this->users_id = $users_id;
 

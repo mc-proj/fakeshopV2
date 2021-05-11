@@ -1,0 +1,9 @@
+{% extends 'email/template.html.twig' %}
+
+{% block body %}
+    <h1>Bonjour ADMIN,</h1>
+
+    <p>Tu as un message de la part de {{ nom }} {{ prenom }}</p>
+    <p>{{ message }}</p>
+
+{% endblock %}

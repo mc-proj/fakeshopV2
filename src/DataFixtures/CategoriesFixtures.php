@@ -3,41 +3,68 @@
 namespace App\DataFixtures;
 
 use App\Entity\Categories;
+use App\Repository\CategoriesRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class CategoriesFixtures extends Fixture implements DependentFixtureInterface
+class CategoriesFixtures extends Fixture
 {
-    public const CATEGORIES_REFERENCE = "categorie";
+    public const CATEGORIE_PIECES = "categorie_pieces";
+    public const CATEGORIE_BILLETS = "categorie_billets";
+    public const CATEGORIE_COLLECTION = "categorie_collection";
+    public const CATEGORIE_COMMEMORATIVES = "categorie_commemoratives";
+    public const CATEGORIE_COMMUNES = "categorie_communes";
+    private $categoriesRepository;
 
-    public function getDependencies()
-    {
-        return [
-            SousCategoriesFixtures::class
-        ];
+    public function __construct(CategoriesRepository $categoriesRepository) {
+
+        $this->categoriesRepository = $categoriesRepository;
     }
 
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create('fr_FR');
+        $pieces = new Categories();
+        $pieces->setNom("pièces");
+        $pieces->setDescription("pièces");
+        $pieces->setImage("pieces.jpg");
 
-        for($i=0; $i<5; $i++) {
+        $billets = new Categories();
+        $billets->setNom("billets");
+        $billets->setDescription("billets");
+        $billets->setImage("billets.jpg");
 
-            $categorie = new Categories();
-            $categorie->setNom($faker->text(10));
-            $categorie->setDescription($faker->sentence(10, true));
-            $categorie->setImage('image');
-            $categorie->addSousCategoriesId($this->getReference(SousCategoriesFixtures::SOUS_CATEGORIES_REFERENCE));
+        $collection = new Categories();
+        $collection->setNom("collection");
+        $collection->setDescription("collection");
+        $collection->setImage("image.jpg");
 
-            $manager->persist($categorie);
-            $manager->flush();
+        $commemoratives = new Categories();
+        $commemoratives->setNom("commemoratives");
+        $commemoratives->setDescription("commemoratives");
+        $commemoratives->setImage("commemoratives.jpg");
 
-            if($i == 4) {
+        $communes = new Categories();
+        $communes->setNom("communes");
+        $communes->setDescription("communes");
+        $communes->setImage("communes.jpg");
 
-                $this->addReference(self::CATEGORIES_REFERENCE, $categorie);
-            }
-        }   
+        $pieces->addCategory($collection);
+        $pieces->addCategory($commemoratives);
+        $pieces->addCategory($communes);
+        $billets->addCategory($communes);
+
+        $this->addReference(self::CATEGORIE_PIECES, $pieces);
+        $this->addReference(self::CATEGORIE_BILLETS, $billets);
+        $this->addReference(self::CATEGORIE_COLLECTION, $collection);
+        $this->addReference(self::CATEGORIE_COMMEMORATIVES, $commemoratives);
+        $this->addReference(self::CATEGORIE_COMMUNES, $communes);
+
+        $manager->persist($communes);
+        $manager->persist($commemoratives);
+        $manager->persist($collection);
+        $manager->persist($billets);
+        $manager->persist($pieces);
+        $manager->flush(); 
     }
 }

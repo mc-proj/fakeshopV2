@@ -25,7 +25,7 @@ class TauxTva
     private $intitule;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
     private $taux;
 

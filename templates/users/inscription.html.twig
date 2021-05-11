@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - Fake Shop V2{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/users/inscription.style.css') }}">
+{% endblock %}
+
+
+{% block body %}
+    <div class="container-fluid">
+
+        {% for message in app.flashes("erreur_creation_compte") %}
+            <div class="alert alert-danger">
+                {{ message}}
+            </div>
+        {% endfor %}
+
+        <h1>Inscription</h1><hr>
+        <h3>Nouvel utilisateur ?</h3>
+        <div class="row" id="rang-formulaire">
+            <div class="col-10 offset-1">
+                {{ form_start(formulaire_inscription) }}
+                    {{ form_widget(formulaire_inscription) }}
+                    <button class="btn" id="bouton_envoi" formnovalidate>ENVOYER</button>
+                {{ form_end(formulaire_inscription) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/users/inscription.script.js') }}"></script>
+{% endblock %}
+

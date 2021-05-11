@@ -1,3 +1,3 @@
-# marcheduweb
+# fakeshopv2
 
-Refonte du site marcheduweb.fr en Symfony
+Evolution de Fake Shop

@@ -9,25 +9,23 @@ use Faker\Factory;
 
 class TauxTvaFixtures extends Fixture
 {
-    public const TAUX_TVA_REFERENCE = "tva";
+    public const TAUX_TVA_STD = "tva_std";
+    public const TAUX_TVA_BAS = "tva_bas";
 
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create('fr_FR');
+        $tva_standard = new TauxTva();
+        $tva_standard->setIntitule("taux_tva_standard");
+        $tva_standard->setTaux(1950);
+        $manager->persist($tva_standard);
+        $this->addReference(self::TAUX_TVA_STD, $tva_standard);
 
-        for($i=0; $i<5; $i++) {
+        $tva_bas = new TauxTva();
+        $tva_bas->setIntitule("taux_tva_bas");
+        $tva_bas->setTaux(550);
+        $manager->persist($tva_bas);
+        $this->addReference(self::TAUX_TVA_BAS, $tva_bas);
 
-            $tva = new TauxTva();
-            $tva->setIntitule("taux_tva_" . $i);
-            $tva->setTaux($faker->randomFloat(2, 5, 20));
-
-            $manager->persist($tva);
-            $manager->flush();
-
-            if($i == 4) {
-
-                $this->addReference(self::TAUX_TVA_REFERENCE, $tva);
-            }
-        }   
+        $manager->flush(); 
     }
 }

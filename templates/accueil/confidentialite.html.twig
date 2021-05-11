@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conditions Générales de Vente - Fake Shop V2{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/accueil/confidentialite.style.css') }}">
+{% endblock %}
+
+{% block body %}
+    <h1>Politique de confidentialité</h1>
+    <div id="bloc-confidentialite">       
+    <hr>
+
+    <div class="titre">Lorem</div>
+        <div class="paragraphe">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+
+        <div class="titre">Etiam bibendum non mi sodales semper</div>
+
+        {% for i in 1..5 %}
+            <div class="sous-titre">Aliquam erat volutpat</div>
+            <div class="paragraphe">
+                Etiam imperdiet rhoncus nisl sit amet vestibulum. Cras ac tortor ipsum. Maecenas diam magna, porttitor porttitor arcu nec, euismod iaculis massa. In congue viverra auctor. Vivamus semper pulvinar lacus, nec tempor felis bibendum non. Donec mattis imperdiet neque, sed sodales leo eleifend at. Nam dictum et est ac luctus. Aliquam ac vehicula risus.
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+

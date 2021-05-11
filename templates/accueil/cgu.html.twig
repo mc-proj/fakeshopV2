@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conditions Générales de Vente - Fake Shop V2{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/accueil/cgu.style.css') }}">
+{% endblock %}
+
+
+{% block body %}
+    <div id="bloc-cgu">
+        <p>
+            Fake Shop V2<br>
+            Société totalement fictive
+            Siège social 123 rue Imaginaire 12345 Fictiville<br>
+            Adresse du courrier électronique : admin@mcproj.fr<br>
+        </p>
+
+        <h1>Conditions générales de vente des produits vendus sur Fake Shop V2</h1>
+        Date de dernière mise à jour: 04/05/2021
+        <h2>Article 1 - Ce site</h2>
+        Ce site a été réalisé a but démonstratif. Aucun des articles présentés n'est réellement disponible.
+    
+        {% for i in 2..10 %}
+            <h2>Article {{i}} - Lorem</h2>
+            Etiam imperdiet rhoncus nisl sit amet vestibulum. Cras ac tortor ipsum. Maecenas diam magna, porttitor porttitor arcu nec, euismod iaculis massa. In congue viverra auctor.
+        {% endfor %}
+    
+    
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+

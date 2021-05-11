@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vous avez cherché {{ recherche }} - Fake Shop V2{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/produits/resultat_recherche.style.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1>Résultat de recherche pour : {{ recherche }}</h1><hr>
+    </div>
+
+    <div class="row">
+        {% for produit in produits %}
+            <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2">
+
+                {% set categorie_generale = "" %}
+                {% set sous_categorie = "" %}
+                {% for categorie in produit.getCategories() %}
+                    {% if categorie.getCategory()|length > 0 %}
+                        {% set categorie_generale = categorie.getNom() %}
+                    {% else %}
+                        {% set sous_categorie = categorie.getNom() %}
+                    {% endif %}
+                {% endfor %}
+                <a href="{{ path('produits_par_categorie', {'categorie': categorie_generale, 'sous_categorie': sous_categorie, 'produit': produit.getNom() }) }}" class="lien-article">
+
+                    <div class="card shadow">                    
+                        {% set image = produit.getImages().getValues()|first %}
+                        <img src="{{ asset('images/produits/') ~ image.getImage() }}" class="card-img-top" id="photo-principale" alt="image {{ produit.nom }}"> 
+                        <hr>
+                        <div class="card-body">
+                            <p class="nom-produit">{{ produit.nom }}</p>
+                            <p>{{ produit.getDescriptionCourte() }}</p>
+                            <p>
+                                Catégories: 
+                                {% for categorie in produit.getCategories() %}
+                                    {{ categorie.nom }}
+                                    {% if loop.last is not same as (true) %}
+                                        ,&nbsp;
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                            <p>
+                                <ul>
+                                    {% for caracteristique in produit.getTypesCaracteristiquesId() %}
+                                        <li>
+                                            {{ caracteristique.getTypesCaracteristiquesId().getNom() }} : 
+                                            {{ caracteristique.getValeur() }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+

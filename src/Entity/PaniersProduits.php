@@ -28,7 +28,7 @@ class PaniersProduits
     private $paniers_id;
 
     /**
-     * @ORM\ManyToOne(Produits::class, inversedBy="paniersProduits")
+     * @ORM\ManyToOne(Produits::class, inversedBy="paniersProduits")  //, cascade={"persist", "remove"}
      */
     private $produits_id;
 
